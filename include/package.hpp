@@ -23,7 +23,8 @@ public:
     ~Package();
 private:
     ElementID id_;
-//    static std::set<ElementID> assigned_IDs;
+    static std::set<ElementID> assigned_IDs;
+    static std::set<ElementID> freed_IDs;
 
 };
 
