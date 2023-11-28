@@ -7,6 +7,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(PROJECT_ID netsim)
 
+include_directories(include)
+
+
 set(SOURCE_FILES
         src/factory.cpp
         src/helpers.cpp
