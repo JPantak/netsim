@@ -6,6 +6,7 @@
 #define IMPLEMENTATION_NETSIM_PACKAGE_HPP
 
 #include <ostream>
+#include <set>
 #include "types.hpp"
 
 class Package{

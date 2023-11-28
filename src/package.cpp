@@ -16,6 +16,7 @@ Package & Package::operator=(Package && p){
     }
     id_ = p.id_;
     p.id_ = -1;
+    return *this;
 }
 
 Package::~Package(){
