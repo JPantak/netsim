@@ -17,3 +17,10 @@ Package & Package::operator=(Package && p){
     id_ = p.id_;
     p.id_ = -1;
 }
+
+Package::~Package(){
+    if(id_==-1){
+        assigned_IDs.erase(id_);
+        freed_IDs.insert(id_);
+    }
+}
