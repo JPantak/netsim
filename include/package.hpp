@@ -12,7 +12,7 @@ class Package{
 public:
     Package();
 
-    Package(ElementID);
+    Package(ElementID id) : id_(id){}
 
     Package(Package&&);
 
