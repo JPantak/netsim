@@ -18,7 +18,7 @@ public:
 
     Package & operator = (Package &&);
 
-    ElementID get_id() const;
+    ElementID get_id() const {return id_;};
 
     ~Package();
 private:
