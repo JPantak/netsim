@@ -4,6 +4,19 @@
 
 #include "package.hpp"
 
+Package::Package() {
+    if (freed_IDs.empty() && assigned_IDs.empty()) {
+        id_ = 1;
+    } else if (!freed_IDs.empty()) {
+        id_ = *freed_IDs.begin();
+        freed_IDs.erase((*freed_IDs.begin()));
+    } else if (!assigned_IDs.empty()) {
+        id_ = *assigned_IDs.end() + 1;
+    }
+
+    assigned_IDs.insert(id_);
+}
+
 Package::Package(Package && p){
     id_ = p.id_;
     p.id_ = -1;
