@@ -2,7 +2,7 @@
 
 Package PackageQueue::pop(){
     Package elem;
-    if(QueueType == PackageQueueType::FIFO){
+    if(QueueType == PackageQueueType::LIFO){
         elem = std::move(Queue.back());
         Queue.pop_back();
         return elem;
@@ -10,4 +10,8 @@ Package PackageQueue::pop(){
     elem = std::move(Queue.front());
     Queue.pop_front();
     return elem;
+}
+
+PackageQueue::~PackageQueue(){
+
 }

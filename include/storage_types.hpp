@@ -38,9 +38,9 @@ public:
 class PackageQueue : public  IPackageQueue {
 public:
     PackageQueue(PackageQueueType Queue): QueueType(Queue){}
-    PackageQueueType get_queue_type(){return QueueType;}
-    size_t size(){return Queue.size();}
-    bool empty(){return Queue.empty();}
+    PackageQueueType get_queue_type() const {return QueueType;}
+    size_t size() const {return Queue.size();}
+    bool empty() const {return Queue.empty();}
     const_iterator begin() const {return Queue.begin();}
     const_iterator end() const {return Queue.end();}
     const_iterator cbegin() const {return Queue.cbegin();}
