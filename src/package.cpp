@@ -1,7 +1,3 @@
-//
-// Created by mmich on 28.11.2023.
-//
-
 #include "package.hpp"
 
 Package::Package() {
