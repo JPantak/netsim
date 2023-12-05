@@ -11,7 +11,7 @@
 #include "storage_types.hpp"
 #include "helpers.hpp"
 
-class Ramp{
+class Ramp : public PackageSender{
 public:
     Ramp(ElementID id, TimeOffset di) : id_(id), di_(di) {};
 
