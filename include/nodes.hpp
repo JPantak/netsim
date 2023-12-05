@@ -6,6 +6,7 @@
 #define IMPLEMENTATION_NETSIM_NODES_HPP
 
 #include <iostream>
+#include <memory>
 #include "types.hpp"
 #include "storage_types.hpp"
 #include "helpers.hpp"
