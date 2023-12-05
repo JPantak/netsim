@@ -39,5 +39,12 @@ private:
     TimeOffset pd_;
     std::unique_ptr<IPackageQueue> q_;
 };
+class Storehouse: public IPackageStockpile{
+    public:
+    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
+    private:
+    ElementID id_;
+    std::unique_ptr<IPackageStockpile> d_;
+};
 
 #endif //IMPLEMENTATION_NETSIM_NODES_HPP
