@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(PROJECT_ID netsim)
 
 include_directories(include)
+include_directories(mocks)
 
 
 set(SOURCE_FILES
