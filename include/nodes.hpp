@@ -4,8 +4,12 @@
 
 #ifndef IMPLEMENTATION_NETSIM_NODES_HPP
 #define IMPLEMENTATION_NETSIM_NODES_HPP
+<<<<<<< Updated upstream
 
 #include <iostream>
+=======
+#include "storage_types.hpp"
+>>>>>>> Stashed changes
 #include "types.hpp"
 #include "storage_types.hpp"
 #include "helpers.hpp"
@@ -38,6 +42,13 @@ private:
     ElementID id_;
     TimeOffset pd_;
     std::unique_ptr<IPackageQueue> q_;
+};
+class Storehouse: public IPackageStockpile{
+    public:
+    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
+    private:
+    ElementID id_;
+    std::unique_ptr<IPackageStockpile> d_;
 };
 
 #endif //IMPLEMENTATION_NETSIM_NODES_HPP
