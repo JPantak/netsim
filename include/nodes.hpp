@@ -21,4 +21,8 @@ private:
     TimeOffset di_;
 };
 
+class Worker{
+
+};
+
 #endif //IMPLEMENTATION_NETSIM_NODES_HPP
