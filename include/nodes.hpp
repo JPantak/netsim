@@ -4,12 +4,8 @@
 
 #ifndef IMPLEMENTATION_NETSIM_NODES_HPP
 #define IMPLEMENTATION_NETSIM_NODES_HPP
-<<<<<<< Updated upstream
 
 #include <iostream>
-=======
-#include "storage_types.hpp"
->>>>>>> Stashed changes
 #include "types.hpp"
 #include "storage_types.hpp"
 #include "helpers.hpp"
