@@ -47,4 +47,19 @@ class Storehouse: public IPackageStockpile{
     std::unique_ptr<IPackageStockpile> d_;
 };
 
+class PackageSender {
+public:
+    //ReceiverPreferences receiver_preferences_;
+
+    PackageSender(PackageSender &&p_sender) = default;
+
+    void send_package();
+
+    const std::optional<Package> &get_sending_buffer() const {return buffer_;}
+private:
+    std::optional<Package> buffer_ = std::nullopt;
+protected:
+    void push_package(Package &&p) {buffer_.emplace(p.get_id()); }
+};
+
 #endif //IMPLEMENTATION_NETSIM_NODES_HPP
