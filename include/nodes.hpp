@@ -17,6 +17,8 @@ class PackageSender {
 public:
     //ReceiverPreferences receiver_preferences_; @TODO
 
+    PackageSender() = default;
+
     PackageSender(PackageSender &&p_sender) = default;
 
     void send_package();
@@ -30,6 +32,7 @@ protected:
 
 class iPackageReceiver  {
     //@TODO
+
 };
 
 class Ramp{
