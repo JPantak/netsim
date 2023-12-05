@@ -10,6 +10,7 @@
 #include "types.hpp"
 #include "storage_types.hpp"
 #include "helpers.hpp"
+#include "optional"
 
 class Ramp{
 public:
@@ -50,7 +51,7 @@ class Storehouse: public IPackageStockpile{
 
 class PackageSender {
 public:
-    //ReceiverPreferences receiver_preferences_;
+    //ReceiverPreferences receiver_preferences_; @TODO
 
     PackageSender(PackageSender &&p_sender) = default;
 
