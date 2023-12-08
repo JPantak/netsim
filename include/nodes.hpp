@@ -81,12 +81,12 @@ class ReceiverPreferences : public PackageSender {
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver(void);
-    preferences_t& get_preferences(void);
+    const preferences_t& get_preferences(void) {return preferences;};
     private:
     ProbabilityGenerator pg_;
+    preferences_t preferences;
 
 };
-
 
 
 #endif //IMPLEMENTATION_NETSIM_NODES_HPP
