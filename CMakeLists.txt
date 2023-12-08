@@ -20,6 +20,7 @@ set(SOURCE_FILES
         src/simulation.cpp
         src/storage_types.cpp
         src/types.cpp
+        src/helpers.cpp
         )
 
 set(SOURCES_FILES_TESTS
