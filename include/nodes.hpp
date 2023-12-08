@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <memory>
+#include <map>
 #include "types.hpp"
 #include "storage_types.hpp"
 #include "helpers.hpp"
@@ -30,7 +31,7 @@ protected:
     void push_package(Package &&p) {buffer_.emplace(p.get_id()); }
 };
 
-class iPackageReceiver  {
+class IPackageReceiver  {
     //@TODO
 
 };
@@ -70,6 +71,20 @@ class Storehouse: public IPackageStockpile{
     private:
     ElementID id_;
     std::unique_ptr<IPackageStockpile> d_;
+};
+
+class ReceiverPreferences : public PackageSender {
+    public:
+    using preferences_t = std::map<IPackageReceiver*, double>;
+    using const_iterator = preferences_t::const_iterator;
+    ReceiverPreferences(ProbabilityGenerator pg): pg_(pg){};
+    void add_receiver(IPackageReceiver* r);
+    void remove_receiver(IPackageReceiver* r);
+    IPackageReceiver* choose_receiver(void);
+    preferences_t& get_preferences(void);
+    private:
+    ProbabilityGenerator pg_;
+
 };
 
 
