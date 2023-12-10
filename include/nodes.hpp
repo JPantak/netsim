@@ -36,21 +36,23 @@ class IPackageReceiver  {
 
 };
 
-class Ramp{
+class Ramp : public PackageSender {
 public:
     Ramp(ElementID id, TimeOffset di) : id_(id), di_(di) {};
 
     void deliver_goods(Time t);
 
-    TimeOffset get_delivery_interval(void) const {return di_;};
+    TimeOffset get_delivery_interval() const {return di_;};
 
-    ElementID get_id(void) const {return id_;}
+    ElementID get_id() const {return id_;}
 private:
     ElementID id_;
     TimeOffset di_;
+    Time t_;
+    std::optional<Package> buffer_ = std::nullopt;
 };
 
-class Worker{
+class Worker : public PackageSender, public IPackageReceiver{
 public:
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q) : id_(id), pd_(pd), q_(std::move(q)){};
 
@@ -58,13 +60,17 @@ public:
 
     TimeOffset get_processing_duration(void) const {return pd_;}
 
-    //Time get_package_processing_start_time(void) const {return }
+    Time get_package_processing_start_time(void) const {return t_;}
 
+    void receive_package(Package&& p) override {q_ -> push(std::move(p));}
 private:
     ElementID id_;
     TimeOffset pd_;
+    Time t_;
     std::unique_ptr<IPackageQueue> q_;
+    std::optional<Package> buffer_ = std::nullopt;
 };
+
 class Storehouse: public IPackageStockpile{
     public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
