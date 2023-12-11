@@ -13,6 +13,10 @@
 #include "helpers.hpp"
 #include "optional"
 
+enum class ReceiverType {
+    Worker,
+    Storehouse
+};
 
 class PackageSender {
 public:
@@ -43,6 +47,10 @@ public:
     virtual void receive_package(PackageSender &&p) = 0;
 
     virtual ElementID get_id() const = 0;
+
+#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
+    virtual ReceiverType get_receiver_type() const = 0;
+#endif
 
     virtual ~IPackageReceiver() = default;
 private:
