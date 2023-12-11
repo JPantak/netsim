@@ -14,7 +14,7 @@ void PackageSender::send_package() {
 }
 
 void ReceiverPreferences::add_receiver(IPackageReceiver* r){
-    double prob = 1.0/(double)preferences_.size();
+    double prob = 1.0/((double)preferences_.size()+1);
     for(auto& key : preferences_){
         key.second = prob;
     }
@@ -23,7 +23,9 @@ void ReceiverPreferences::add_receiver(IPackageReceiver* r){
 
 void ReceiverPreferences::remove_receiver(IPackageReceiver* r){
     preferences_.erase(r);
-    double prob = 1.0/(double)preferences_.size();
+    double prob = 1.0/((double)preferences_.size());
+    
+    if(preferences_.size() == 1)
     for(auto& key : preferences_){
         key.second = prob;
     }
