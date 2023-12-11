@@ -2,10 +2,6 @@
 #include "helpers.hpp"
 #include<memory>
 
-Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d){
-    id_ = id;
-    d_ = std::move(d);
-}
 
 void PackageSender::send_package() {
     IPackageReceiver *receiver;
