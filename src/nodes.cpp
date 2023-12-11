@@ -32,7 +32,7 @@ void ReceiverPreferences::remove_receiver(IPackageReceiver* r){
 }
 IPackageReceiver* ReceiverPreferences::choose_receiver(void){
     double prob = pg_();
-    double prob_sum = 0;
+    double prob_sum = 0.0;
     for(auto& key : preferences_){
         if(prob_sum < prob && prob_sum + key.second > prob){
             return key.first;
@@ -41,6 +41,7 @@ IPackageReceiver* ReceiverPreferences::choose_receiver(void){
     }
     return nullptr;
 }
+
 
 void Ramp::deliver_goods(Time t) {
     if (!buffer_) {
