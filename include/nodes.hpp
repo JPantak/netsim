@@ -32,7 +32,21 @@ protected:
 };
 
 class IPackageReceiver  {
-    //@TODO
+public:
+    IPackageReceiver() = default;
+
+    virtual IPackageStockpile::const_iterator begin() const = 0;
+    virtual IPackageStockpile::const_iterator end() const = 0;
+    virtual IPackageStockpile::const_iterator cbegin() const = 0;
+    virtual IPackageStockpile::const_iterator cend() const = 0;
+
+    virtual void receive_package(PackageSender &&p) = 0;
+
+    virtual ElementID get_id() const = 0;
+
+    virtual ~IPackageReceiver() = default;
+private:
+
 
 };
 
