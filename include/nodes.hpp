@@ -78,7 +78,7 @@ protected:
 
 class Ramp : public PackageSender {
 public:
-    Ramp(ElementID id, TimeOffset di) : id_(id), di_(di) {};
+    Ramp(ElementID id, TimeOffset di) : PackageSender(), id_(id), di_(di) {};
 
     void deliver_goods(Time t);
 
@@ -94,15 +94,25 @@ private:
 
 class Worker : public PackageSender, public IPackageReceiver{
 public:
-    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q) : id_(id), pd_(pd), q_(std::move(q)){};
+    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q) : PackageSender(), id_(id), pd_(pd), q_(std::move(q)){};
 
     void do_work(Time t);
 
-    TimeOffset get_processing_duration(void) const {return pd_;}
+    TimeOffset get_processing_duration() const {return pd_;}
 
-    Time get_package_processing_start_time(void) const {return t_;}
+    Time get_package_processing_start_time() const {return t_;}
 
     void receive_package(Package&& p) override {q_ -> push(std::move(p));}
+
+    ElementID get_id() const override {return id_;}
+
+    IPackageStockpile::const_iterator cbegin() const override {return q_->cbegin();}
+
+    IPackageStockpile::const_iterator cend() const override {return q_->cend();}
+
+    IPackageStockpile::const_iterator begin() const override {return q_->begin();}
+
+    IPackageStockpile::const_iterator end() const override {return q_->end();}
 
 #if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
     ReceiverType get_receiver_type() const override { return ReceiverType::Worker; }

@@ -58,5 +58,17 @@ void Ramp::deliver_goods(Time t) {
 }
 
 void Worker::do_work(Time t) {
-    //@TODO
+    if (!buffer_ && !q_->empty()) {
+        buffer_.emplace(q_->pop());
+        t_ = t;
+    }
+    else {
+        if (t - pd_ == t_ - 1) {
+            push_package(Package(buffer_.value().get_id()));
+            buffer_.reset();
+            if (!q_->empty()) {
+                buffer_.emplace(q_->pop());
+            }
+        }
+    }
 }
