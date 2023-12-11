@@ -3,11 +3,13 @@
 
 #include <list>
 #include "package.hpp"
-using const_iterator = std::list<Package>::const_iterator;
+
 
 
 class IPackageStockpile {
 public:
+    using const_iterator = std::list<Package>::const_iterator;
+
     virtual void push(Package&& package) = 0;
     virtual bool empty() const = 0;
     virtual std::size_t size() const = 0;

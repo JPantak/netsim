@@ -12,7 +12,6 @@
 #include "helpers.hpp"
 #include "optional"
 
-
 class PackageSender {
 public:
     //ReceiverPreferences receiver_preferences_; @TODO
@@ -30,8 +29,21 @@ protected:
     void push_package(Package &&p) {buffer_.emplace(p.get_id()); }
 };
 
-class iPackageReceiver  {
-    //@TODO
+class IPackageReceiver  {
+public:
+    IPackageReceiver() = default;
+
+    virtual IPackageStockpile::const_iterator cbegin() const = 0;
+    virtual IPackageStockpile::const_iterator cend() const = 0;
+    virtual IPackageStockpile::const_iterator begin() const = 0;
+    virtual IPackageStockpile::const_iterator end() const = 0;
+
+    virtual void receive_package(Package &&p) = 0;
+
+    virtual ElementID get_id() const = 0;
+
+    virtual ~IPackageReceiver() = default;
+private:
 
 };
 
