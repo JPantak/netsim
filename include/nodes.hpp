@@ -18,9 +18,49 @@ enum class ReceiverType {
     Storehouse
 };
 
+class IPackageReceiver  {
+public:
+    IPackageReceiver() = default;
+
+    virtual IPackageStockpile::const_iterator begin() const = 0;
+    virtual IPackageStockpile::const_iterator end() const = 0;
+    virtual IPackageStockpile::const_iterator cbegin() const = 0;
+    virtual IPackageStockpile::const_iterator cend() const = 0;
+
+    virtual void receive_package(Package &&p) = 0;
+
+    virtual ElementID get_id() const = 0;
+
+#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
+    virtual ReceiverType get_receiver_type() const = 0;
+#endif
+
+    virtual ~IPackageReceiver() = default;
+private:
+
+
+};
+
+class ReceiverPreferences {
+public:
+    using preferences_t = std::map<IPackageReceiver*, double>;
+    using const_iterator = preferences_t::const_iterator;
+    ReceiverPreferences();
+    ReceiverPreferences(ProbabilityGenerator pg): pg_(pg){};
+    void add_receiver(IPackageReceiver* r);
+    void remove_receiver(IPackageReceiver* r);
+    IPackageReceiver* choose_receiver(void);
+    const preferences_t& get_preferences(void) {return preferences_;};
+private:
+    ProbabilityGenerator pg_;
+    preferences_t preferences_;
+
+};
+
+
 class PackageSender {
 public:
-    //ReceiverPreferences receiver_preferences_; @TODO
+    ReceiverPreferences receiver_preferences_;
 
     PackageSender() = default;
 
@@ -35,28 +75,6 @@ protected:
     void push_package(Package &&p) {buffer_.emplace(p.get_id()); }
 };
 
-class IPackageReceiver  {
-public:
-    IPackageReceiver() = default;
-
-    virtual IPackageStockpile::const_iterator begin() const = 0;
-    virtual IPackageStockpile::const_iterator end() const = 0;
-    virtual IPackageStockpile::const_iterator cbegin() const = 0;
-    virtual IPackageStockpile::const_iterator cend() const = 0;
-
-    virtual void receive_package(PackageSender &&p) = 0;
-
-    virtual ElementID get_id() const = 0;
-
-#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
-    virtual ReceiverType get_receiver_type() const = 0;
-#endif
-
-    virtual ~IPackageReceiver() = default;
-private:
-
-
-};
 
 class Ramp : public PackageSender {
 public:
@@ -85,6 +103,11 @@ public:
     Time get_package_processing_start_time(void) const {return t_;}
 
     void receive_package(Package&& p) override {q_ -> push(std::move(p));}
+
+#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
+    ReceiverType get_receiver_type() const override { return ReceiverType::Worker; }
+#endif
+
 private:
     ElementID id_;
     TimeOffset pd_;
@@ -96,26 +119,13 @@ private:
 class Storehouse: public IPackageStockpile{
     public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
+
+#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
+    ReceiverType get_receiver_type() const override { return ReceiverType::Storehouse; }
+#endif
     private:
     ElementID id_;
     std::unique_ptr<IPackageStockpile> d_;
 };
-
-class ReceiverPreferences : public PackageSender {
-    public:
-    using preferences_t = std::map<IPackageReceiver*, double>;
-    using const_iterator = preferences_t::const_iterator;
-    ReceiverPreferences();
-    ReceiverPreferences(ProbabilityGenerator pg): pg_(pg){};
-    void add_receiver(IPackageReceiver* r);
-    void remove_receiver(IPackageReceiver* r);
-    IPackageReceiver* choose_receiver(void);
-    const preferences_t& get_preferences(void) {return preferences_;};
-    private:
-    ProbabilityGenerator pg_;
-    preferences_t preferences_;
-
-};
-
 
 #endif //IMPLEMENTATION_NETSIM_NODES_HPP

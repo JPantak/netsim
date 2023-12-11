@@ -8,7 +8,13 @@ Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d){
 }
 
 void PackageSender::send_package() {
-    //@TODO
+    IPackageReceiver *receiver;
+
+    if(buffer_) {
+        receiver = receiver_preferences_.choose_receiver();
+        receiver->receive_package(std::move(*buffer_));
+        buffer_.reset();
+    }
 }
 
 void ReceiverPreferences::add_receiver(IPackageReceiver* r){
