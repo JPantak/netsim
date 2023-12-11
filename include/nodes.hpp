@@ -47,6 +47,10 @@ public:
     using const_iterator = preferences_t::const_iterator;
     ReceiverPreferences() = default;
     ReceiverPreferences(ProbabilityGenerator pg): pg_(pg){};
+    const_iterator begin() const {return preferences_.cbegin();}
+    const_iterator end() const {return preferences_.cend();};
+    const_iterator cbegin() const {return preferences_.cbegin();}
+    const_iterator cend() const  {return preferences_.cend();};
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver(void);
@@ -128,8 +132,12 @@ private:
 
 class Storehouse: public IPackageStockpile{
     public:
+    Storehouse() = default;
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
-
+    IPackageStockpile::const_iterator begin() const override {return d_->cbegin();}
+    IPackageStockpile::const_iterator end() const override {return d_->cend();};
+    IPackageStockpile::const_iterator cbegin() const override {return d_->cbegin();}
+    IPackageStockpile::const_iterator cend() const override {return d_->cend();}
 #if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
     ReceiverType get_receiver_type() const override { return ReceiverType::Storehouse; }
 #endif
