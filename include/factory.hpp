@@ -64,16 +64,15 @@ public:
     NodeCollection<Storehouse>::const_iterator storehouse_cbegin() {return Storehouses.cbegin();}
     NodeCollection<Storehouse>::const_iterator storehouse_cend() {return Storehouses.cend();}
     
-    void remove_receiver(NodeCollection<Ramp>& collection, ElementID id);
-    void remove_receiver(NodeCollection<Worker>& collection, ElementID id);
-    void remove_receiver(NodeCollection<Storehouse>& collection, ElementID id);
-    
     bool is_consistent(void);
     void do_delivieries(Time t);
     void do_package_passing(void);
     void do_work(Time t);
 
 private:
+    void remove_receiver(NodeCollection<Ramp>& collection, ElementID id) {collection.remove_by_id(id);}
+    void remove_receiver(NodeCollection<Worker>& collection, ElementID id) {collection.remove_by_id(id);}
+    void remove_receiver(NodeCollection<Storehouse>& collection, ElementID id) {collection.remove_by_id(id);}
     NodeCollection<Ramp> Ramps;
     NodeCollection<Worker> Workers;
     NodeCollection<Storehouse> Storehouses;
