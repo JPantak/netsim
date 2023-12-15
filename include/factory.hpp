@@ -38,4 +38,19 @@ private:
     container_t container_;
 };
 
+class Factory{
+public:
+    void add_ramp(Ramp&&);
+    void remove_ramp(ElementID id);
+    NodeCollection<Ramp>::iterator find_ramp_by_id(ElementID id);
+    NodeCollection<Ramp>::const_iterator find_ramp_by_id(ElementID id) const;
+    NodeCollection<Ramp>::const_iterator ramp_cbegin();
+    NodeCollection<Ramp>::const_iterator ramp_cend();
+    void remove_receiver(NodeCollection<Ramp>& collection, ElementID id)
+    bool is_consistent(void);
+    void do_delivieries(Time t);
+    void do_package_passing(void);
+    void do_work(Time t);
+};
+
 #endif
