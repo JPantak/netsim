@@ -75,9 +75,7 @@ public:
 private:
     template <class Node>
     void remove_receiver(NodeCollection<Node>& collection, ElementID id);
-//    void remove_receiver(NodeCollection<Ramp>& collection, ElementID id) {collection.remove_by_id(id);}
-//    void remove_receiver(NodeCollection<Worker>& collection, ElementID id) {collection.remove_by_id(id);}
-//    void remove_receiver(NodeCollection<Storehouse>& collection, ElementID id) {collection.remove_by_id(id);}
+
     NodeCollection<Ramp> Ramps;
     NodeCollection<Worker> Workers;
     NodeCollection<Storehouse> Storehouses;
