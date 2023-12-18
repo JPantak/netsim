@@ -10,37 +10,34 @@
 
 
 
-template<typename Node>
+template<class Node>
 class NodeCollection {
 public:
-    using container_t = typename std::vector<Node>;
+    using container_t = typename std::list<Node>;
     using iterator = typename container_t::iterator;
     using const_iterator = typename container_t::const_iterator;
 
-    void add(Node&& node) {node_ -> std::move(node);}
+    void add(Node&& node) { nodes_.push_back(std::move(node)); };
 
-    iterator find_by_id(ElementID id) {return std::find_if(container_.begin(), container_.end(),
-                                                           [id](ElementID i){return (i == id);});};
+    NodeCollection<Node>::iterator find_by_id(ElementID id) {return std::find_if(nodes_.begin(), nodes_.end(), [id](Node& element) { return element.get_id() == id; });};
+    NodeCollection<Node>::const_iterator find_by_id(ElementID id) const {return std::find_if(nodes_.cbegin(), nodes_.cend(), [id](const Node& element) { return element.get_id() == id; });};
 
-    const_iterator find_by_id(ElementID id) const {return std::find_if(container_.begin(), container_.end(),
-                                                                [id](ElementID i){return (i == id);});};
 
     void remove_by_id(ElementID id) {
         auto iter = find_by_id(id);
-        if (iter != container_.end()){
-            container_.erase(iter);
+        if (iter != nodes_.end()){
+            nodes_.erase(iter);
         }
     }
 
-    iterator begin() {return container_.begin();}
-    iterator end() {return container_.end();}
-    const_iterator cbegin() const {return container_.cbegin();}
-    const_iterator cend() const {return container_.cend();}
-    const_iterator begin() const {return container_.begin();}
-    const_iterator end() const {return container_.end();}
+    iterator begin() {return nodes_.begin();}
+    iterator end() {return nodes_.end();}
+    const_iterator cbegin() const {return nodes_.cbegin();}
+    const_iterator cend() const {return nodes_.cend();}
+    const_iterator begin() const {return nodes_.begin();}
+    const_iterator end() const {return nodes_.end();}
 private:
-    Node node_;
-    container_t container_;
+    std::list<Node> nodes_;
 };
 
 class Factory{
