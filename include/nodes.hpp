@@ -31,9 +31,9 @@ public:
 
     virtual ElementID get_id() const = 0;
 
-#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
+
     virtual ReceiverType get_receiver_type() const = 0;
-#endif
+
 
     virtual ~IPackageReceiver() = default;
 private:
@@ -53,7 +53,7 @@ public:
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver(void);
-    const preferences_t& get_preferences(void) {return preferences_;};
+    const preferences_t& get_preferences(void) const  {return preferences_;};
 private:
     ProbabilityGenerator pg_;
     preferences_t preferences_;
@@ -117,9 +117,8 @@ public:
 
     IPackageStockpile::const_iterator end() const override {return q_->end();}
 
-#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
     ReceiverType get_receiver_type() const override { return ReceiverType::Worker; }
-#endif
+
 
 private:
     ElementID id_;
@@ -140,9 +139,9 @@ class Storehouse: public IPackageReceiver{
     IPackageStockpile::const_iterator cbegin() const override {return d_->cbegin();}
     IPackageStockpile::const_iterator cend() const override {return d_->cend();}
     ~Storehouse() = default;
-#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
+
     ReceiverType get_receiver_type() const override { return ReceiverType::Storehouse; }
-#endif
+
     private:
     ElementID id_;
     std::unique_ptr<IPackageStockpile> d_;

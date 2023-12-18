@@ -4,6 +4,11 @@
 #include <vector>
 #include <algorithm>
 #include "types.hpp"
+#include "nodes.hpp"
+#include <stdexcept>
+#include <string>
+
+
 
 template<typename Node>
 class NodeCollection {
@@ -76,6 +81,14 @@ private:
     NodeCollection<Ramp> Ramps;
     NodeCollection<Worker> Workers;
     NodeCollection<Storehouse> Storehouses;
+
+    enum class NodeColor {
+        Univisited,
+        Visited,
+        Verified
+    };
+
+    bool has_reachable_storehouse(const PackageSender* sender, std::map<const PackageSender*, NodeColor> &node_colors);
 };
 
 #endif
