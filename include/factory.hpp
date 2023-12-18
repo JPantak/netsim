@@ -40,16 +40,17 @@ private:
     std::list<Node> nodes_;
 };
 
+
 class Factory{
 public:
     void add_ramp(Ramp&& ramp) {Ramps.add(std::move(ramp));}
     void remove_ramp(ElementID id) {Ramps.remove_by_id(id);}
 
     void add_worker(Worker&& worker) {Workers.add(std::move(worker));}
-    void remove_worker(ElementID id) {Workers.remove_by_id(id);}
+    void remove_worker(ElementID id);
 
     void add_storehouse(Storehouse&& storehouse){Storehouses.add(std::move(storehouse));}
-    void remove_storehouse(ElementID id){Storehouses.remove_by_id(id);}
+    void remove_storehouse(ElementID id);
 
     NodeCollection<Ramp>::iterator find_ramp_by_id(ElementID id) {return Ramps.find_by_id(id);}
     NodeCollection<Ramp>::const_iterator find_ramp_by_id(ElementID id) const {return Ramps.find_by_id(id);}
@@ -72,9 +73,11 @@ public:
     void do_work(Time t);
 
 private:
-    void remove_receiver(NodeCollection<Ramp>& collection, ElementID id) {collection.remove_by_id(id);}
-    void remove_receiver(NodeCollection<Worker>& collection, ElementID id) {collection.remove_by_id(id);}
-    void remove_receiver(NodeCollection<Storehouse>& collection, ElementID id) {collection.remove_by_id(id);}
+    template <class Node>
+    void remove_receiver(NodeCollection<Node>& collection, ElementID id);
+//    void remove_receiver(NodeCollection<Ramp>& collection, ElementID id) {collection.remove_by_id(id);}
+//    void remove_receiver(NodeCollection<Worker>& collection, ElementID id) {collection.remove_by_id(id);}
+//    void remove_receiver(NodeCollection<Storehouse>& collection, ElementID id) {collection.remove_by_id(id);}
     NodeCollection<Ramp> Ramps;
     NodeCollection<Worker> Workers;
     NodeCollection<Storehouse> Storehouses;

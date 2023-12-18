@@ -80,3 +80,26 @@ void Factory::do_work(Time t) {
         worker.do_work(t);
     }
 };
+
+void Factory::remove_worker(ElementID id) {
+    remove_receiver(Workers, id);
+    Workers.remove_by_id(id);
+}
+
+void Factory::remove_storehouse(ElementID id){
+    remove_receiver(Storehouses, id);
+    Storehouses.remove_by_id(id);
+}
+
+template <class Node>
+void Factory::remove_receiver(NodeCollection<Node> &collection, ElementID id) {
+    auto ptr = dynamic_cast<IPackageReceiver*>(&(*collection.find_by_id(id)));
+    for (Worker& sender: Workers) {
+        sender.receiver_preferences_.remove_receiver(ptr);
+    }
+    if (std::is_same<Node, Worker>::value) {
+        for (Ramp& sender: Ramps) {
+            sender.receiver_preferences_.remove_receiver(ptr);
+        }
+    }
+}
