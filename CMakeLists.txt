@@ -28,6 +28,7 @@ set(SOURCES_FILES_TESTS
         test/test_storage_types.cpp
         test/test_nodes.cpp
         test/test_Factory.cpp
+        test/test_Factory_io.cpp
         )
 
 #add_executable(netsim ${SOURCE_FILES} main.cpp)
