@@ -101,6 +101,8 @@ public:
 
     void do_work(Time t);
 
+    IPackageQueue* get_queue(void) const {return q_.get();}
+
     TimeOffset get_processing_duration() const {return pd_;}
 
     Time get_package_processing_start_time() const {return t_;}
