@@ -169,10 +169,12 @@ Factory load_factory_structure(std::istream& is){
             
         }
 	
-}
-return factory;
+    }
+    return factory;
 }
 
 void save_factory_structure(Factory& factory, std::ostream& os){
+    os << "; == LOADING RAMPS" << std::endl;
+    os.put(os.widen('\n'));
 
 }
