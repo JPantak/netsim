@@ -40,6 +40,16 @@ private:
     std::list<Node> nodes_;
 };
 
+enum ElementType {RAMP,WORKER,STOREHOUSE,LINK};
+
+struct ParsedLineData
+{
+    ElementType type;
+    std::map<std::string,std::string> map;
+};
+
+ParsedLineData parse_line(std::string line);
+
 
 class Factory{
 public:
