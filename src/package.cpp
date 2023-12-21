@@ -10,34 +10,40 @@ Package::Package() {
         id_ = *freed_IDs.begin();
         freed_IDs.erase((*freed_IDs.begin()));
     } else if (!assigned_IDs.empty()) {
-        id_ = *assigned_IDs.end() + 1;
+        //id_ = *assigned_IDs.end() + 1;
+        id_ = *std::prev(assigned_IDs.end());
     }
+
 
     assigned_IDs.insert(id_);
 }
 
-
-Package & Package::operator=(Package && p) noexcept {
-    if (this == &p) return *this;
-
-    if(id_ != -1){
-        freed_IDs.insert(this->id_);
-        assigned_IDs.erase(this->id_);
-    }
-
-    this->id_ = p.id_;
-    assigned_IDs.insert(this->id_);
-
-    p.id_ = -1;
-
-    return *this;
-
+Package::Package(ElementID id){
+    id_ = id;
+    assigned_IDs.insert(id);
 }
 
-Package::Package(Package && p) noexcept{
-    id_ = p.id_;
-    p.id_ = -1;
-}
+//Package & Package::operator=(Package && p) noexcept {
+//    if (this == &p) return *this;
+//
+//    if(id_ != -1){
+//        freed_IDs.insert(this->id_);
+//        assigned_IDs.erase(this->id_);
+//    }
+//
+//    this->id_ = p.id_;
+//    assigned_IDs.insert(this->id_);
+//
+//    p.id_ = -1;
+//
+//    return *this;
+//
+//}
+//
+//Package::Package(Package && p) noexcept{
+//    id_ = p.id_;
+//    p.id_ = -1;
+//}
 
 Package::~Package(){
     if(id_!=-1){

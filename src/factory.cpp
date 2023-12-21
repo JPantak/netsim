@@ -175,6 +175,7 @@ Factory load_factory_structure(std::istream& is){
             if((*elem.map.find("queue-type")).second == "FIFO"){
                 type = PackageQueueType::FIFO;
             }
+
             std::unique_ptr<PackageQueue> q = std::make_unique<PackageQueue>(PackageQueue(type));
             factory.add_worker(Worker(id,pt,std::move(q)));
         }
@@ -186,9 +187,9 @@ Factory load_factory_structure(std::istream& is){
             std::map<std::string, std::string> type_id_sender = parse_type_id((*elem.map.find("src")).second);
             std::map<std::string, std::string> type_id_receiver = parse_type_id((*elem.map.find("dest")).second);
             if(type_id_sender[0] == "ramp" && type_id_receiver[0] == "worker") {
-                ElementID id_sender = std::stoi((*type_id_sender.find("id")).second);
-                ElementID id_receiver = std::stoi((*type_id_receiver.find("id")).second[0]);
-                factory.find_ramp_by_id(id_sender)->receiver_preferences_.add_receiver(factory.find_worker_by_id(id_receiver));
+                // id_sender = std::stoi((*type_id_sender.find("id")).second);
+                //ElementID id_receiver = std::stoi((*type_id_receiver.find("id")).second[0]);
+                //factory.find_ramp_by_id(id_sender)->receiver_preferences_.add_receiver(factory.find_worker_by_id(id_receiver));
             }
 //            if(type_receiver == "ramp"){
 //                factory.find_ramp_by_id(id_receiver)->receiver_preferences_.add_receiver();

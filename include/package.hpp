@@ -13,11 +13,16 @@ class Package{
 public:
     Package();
 
-    Package(ElementID id) : id_(id) {}
+    Package(ElementID id);
 
-    Package & operator = (Package &&) noexcept;
+//    Package & operator = (Package &&) noexcept;
+//
+//    Package(Package&&) noexcept;
 
-    Package(Package&&) noexcept;
+    Package(Package&&) = default;
+    Package(const Package& p) = default;
+    Package& operator = (Package&&) = default;
+
 
     ElementID get_id() const {return id_;};
 
