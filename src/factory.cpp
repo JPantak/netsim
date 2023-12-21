@@ -136,6 +136,20 @@ ParsedLineData parse_line(std::string line){
     return out;
 }
 
+std::map<std::string, std::string> parse_type_id(std::string line){
+    std::map<std::string, std::string> result;
+    std::istringstream token_stream(line);
+    std::string token;
+
+    std::getline(token_stream, token, '-');
+
+    std::string key = token.substr(0, token.find('-'));
+    std::string id = token.substr(token.find('-'), token.size()-1);
+    result.insert(std::make_pair(key,id));
+
+    return result;
+}
+
 Factory load_factory_structure(std::istream& is){
     
     Factory factory;
@@ -146,13 +160,13 @@ Factory load_factory_structure(std::istream& is){
         }
         ParsedLineData elem = parse_line(line);
         if(elem.type == RAMP){
-            ElementID id = std::stoi((*elem.map.find("ramp-id")).second);
-            TimeOffset di = std::stoi((*elem.map.find("delivery-interval")).second);
+            ElementID id = std::stoi((*elem.map.find("id")).second);
+            TimeOffset di = static_cast<TimeOffset>(std::stoi((*elem.map.find("delivery-interval")).second));
             factory.add_ramp(Ramp(id,di));
         }
         if(elem.type == WORKER){
-            ElementID id = std::stoi((*elem.map.find("worker-id")).second);
-            TimeOffset pt = std::stoi((*elem.map.find("processing-time")).second);
+            ElementID id = std::stoi((*elem.map.find("id")).second);
+            TimeOffset pt = static_cast<TimeOffset>(std::stoi((*elem.map.find("processing-time")).second));
             if((*elem.map.find("queue-type")).second == "LIFO"){
                 PackageQueueType type = PackageQueueType::LIFO;
             }
@@ -162,12 +176,20 @@ Factory load_factory_structure(std::istream& is){
             factory.add_worker(Worker(id,pt));
         }
         if(elem.type == STOREHOUSE){
-            ElementID id = std::stoi((*elem.map.find("storehouse-id")).second);
+            ElementID id = std::stoi((*elem.map.find("id")).second);
             factory.add_storehouse(Storehouse(id));
         }
         if(elem.type == LINK){
-            ElementID id = std::stoi((*elem.map.find("node-id")).second);
-            
+            std::map<std::string, std::string> type_id_sender = parse_type_id((*elem.map.find("src")).second);
+            std::map<std::string, std::string> type_id_receiver = parse_type_id((*elem.map.find("dest")).second);
+            if(type_id_sender[0] == "ramp" && type_id_receiver[0] == "worker") {
+                ElementID id_sender = std::stoi((*type_id_sender.find("id")).second);
+                ElementID id_receiver = std::stoi((*type_id_receiver.find("id")).second);
+                factory.find_ramp_by_id(id_sender)->receiver_preferences_.add_receiver(factory.find_worker_by_id(id_receiver));
+            }
+//            if(type_receiver == "ramp"){
+//                factory.find_ramp_by_id(id_receiver)->receiver_preferences_.add_receiver();
+//            }
         }
 	
     }
