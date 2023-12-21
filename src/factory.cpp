@@ -2,6 +2,7 @@
 #include <istream>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 bool Factory::has_reachable_storehouse(const PackageSender *sender, std::map<const PackageSender *, NodeColor> &node_color) {
     if (node_color[sender] == NodeColor::Verified) {
@@ -167,13 +168,15 @@ Factory load_factory_structure(std::istream& is){
         if(elem.type == WORKER){
             ElementID id = std::stoi((*elem.map.find("id")).second);
             TimeOffset pt = static_cast<TimeOffset>(std::stoi((*elem.map.find("processing-time")).second));
+            PackageQueueType type;
             if((*elem.map.find("queue-type")).second == "LIFO"){
                 PackageQueueType type = PackageQueueType::LIFO;
             }
             if((*elem.map.find("queue-type")).second == "FIFO"){
                 PackageQueueType type = PackageQueueType::FIFO;
             }
-            factory.add_worker(Worker(id,pt));
+            std::unique_ptr<PackageQueue> q = std::make_unique<PackageQueue>(PackageQueue(type));
+            factory.add_worker(Worker(id,pt,std::move(q)));
         }
         if(elem.type == STOREHOUSE){
             ElementID id = std::stoi((*elem.map.find("id")).second);
@@ -196,8 +199,12 @@ Factory load_factory_structure(std::istream& is){
     return factory;
 }
 
+
+
 void save_factory_structure(Factory& factory, std::ostream& os){
     os << "; == LOADING RAMPS" << std::endl;
     os.put(os.widen('\n'));
+
+    // std::for_each(factory.ramp_cbegin(),factory.ramp_cend(),);
 
 }
