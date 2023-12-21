@@ -166,6 +166,7 @@ Factory load_factory_structure(std::istream& is){
             factory.add_storehouse(Storehouse(id));
         }
         if(elem.type == LINK){
+            ElementID id = std::stoi((*elem.map.find("node-id")).second);
             
         }
 	
