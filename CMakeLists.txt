@@ -31,7 +31,7 @@ set(SOURCES_FILES_TESTS
         test/test_Factory_io.cpp
         )
 
-#add_executable(netsim ${SOURCE_FILES} main.cpp)
+#add_executable(netsim_main ${SOURCE_FILES} main.cpp)
 
 if(EXISTS ${PROJECT_SOURCE_DIR}/test)
     set(EXEC_TEST ${PROJECT_ID}__test)

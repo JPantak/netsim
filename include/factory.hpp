@@ -49,6 +49,7 @@ struct ParsedLineData
 };
 
 ParsedLineData parse_line(std::string line);
+std::pair<std::string, std::string> parse_type_id(std::string line);
 
 
 class Factory{
@@ -65,7 +66,7 @@ public:
     NodeCollection<Ramp>::iterator find_ramp_by_id(ElementID id) {return Ramps.find_by_id(id);}
     NodeCollection<Ramp>::const_iterator find_ramp_by_id(ElementID id) const {return Ramps.find_by_id(id);}
     NodeCollection<Ramp>::const_iterator ramp_cbegin() {return Ramps.cbegin();}
-    NodeCollection<Ramp>::const_iterator ramp_cend() {return Ramps.end();}
+    NodeCollection<Ramp>::const_iterator ramp_cend() {return Ramps.cend();}
 
     NodeCollection<Worker>::iterator find_worker_by_id(ElementID id){return Workers.find_by_id(id);}
     NodeCollection<Worker>::const_iterator find_worker_by_id(ElementID id) const {return Workers.find_by_id(id);}
