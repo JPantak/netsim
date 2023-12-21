@@ -200,11 +200,26 @@ Factory load_factory_structure(std::istream& is){
 }
 
 
+void ramp_fn(std::ostream& os){
+
+}
 
 void save_factory_structure(Factory& factory, std::ostream& os){
-    os << "; == LOADING RAMPS" << std::endl;
+    os << "; == LOADING RAMPS ==" << std::endl;
     os.put(os.widen('\n'));
 
-    // std::for_each(factory.ramp_cbegin(),factory.ramp_cend(),);
+    for(auto i = factory.ramp_cbegin(); i != factory.ramp_cend();i++){
+        os << "LOADING_RAMP id=" << (*i).get_id() << " delivery-interval=" << (*i).get_delivery_interval() << "\n";
+    }
+    os << "; == WORKERS ==\n\n" << std::endl;
+    for(auto i = factory.worker_cbegin(); i != factory.worker_cend();i++){
+        os << "WORKER id=" << (*i).get_id() << " processing-time=" << (*i).get_processing_duration() << " queue-type=" << (*i).get_queue() << "\n";
+    }
+    os << "; == STOREHOUSES ==\n\n" << std::endl;
+    for(auto i = factory.storehouse_cbegin(); i != factory.storehouse_cend();i++){
+        os << "STOREHOUSE id=" << (*i).get_id() << "\n";
+    }
+    os << "; == LINKS ==\n\n" << std::endl;
+    
 
 }
