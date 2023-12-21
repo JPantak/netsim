@@ -170,10 +170,10 @@ Factory load_factory_structure(std::istream& is){
             TimeOffset pt = static_cast<TimeOffset>(std::stoi((*elem.map.find("processing-time")).second));
             PackageQueueType type;
             if((*elem.map.find("queue-type")).second == "LIFO"){
-                PackageQueueType type = PackageQueueType::LIFO;
+                type = PackageQueueType::LIFO;
             }
             if((*elem.map.find("queue-type")).second == "FIFO"){
-                PackageQueueType type = PackageQueueType::FIFO;
+                type = PackageQueueType::FIFO;
             }
             std::unique_ptr<PackageQueue> q = std::make_unique<PackageQueue>(PackageQueue(type));
             factory.add_worker(Worker(id,pt,std::move(q)));
