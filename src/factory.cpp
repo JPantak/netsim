@@ -131,7 +131,7 @@ ParsedLineData parse_line(std::string line){
     
     while (std::getline(token_stream, token, delimiter)) {
         std::string key = token.substr(0, token.find(id_delimiter));
-        std::string id = token.substr(token.find(id_delimiter), token.size()-1);
+        std::string id = token.substr(token.find(id_delimiter) + 1, token.size()-1);
         out.map.insert(std::make_pair(key,id));
     }
     return out;
@@ -145,7 +145,7 @@ std::map<std::string, std::string> parse_type_id(std::string line){
     std::getline(token_stream, token, '-');
 
     std::string key = token.substr(0, token.find('-'));
-    std::string id = token.substr(token.find('-'), token.size()-1);
+    std::string id = token.substr(token.find('-') + 1, token.size()-1);
     result.insert(std::make_pair(key,id));
 
     return result;
@@ -187,7 +187,7 @@ Factory load_factory_structure(std::istream& is){
             std::map<std::string, std::string> type_id_receiver = parse_type_id((*elem.map.find("dest")).second);
             if(type_id_sender[0] == "ramp" && type_id_receiver[0] == "worker") {
                 ElementID id_sender = std::stoi((*type_id_sender.find("id")).second);
-                ElementID id_receiver = std::stoi((*type_id_receiver.find("id")).second);
+                ElementID id_receiver = std::stoi((*type_id_receiver.find("id")).second[0]);
                 factory.find_ramp_by_id(id_sender)->receiver_preferences_.add_receiver(factory.find_worker_by_id(id_receiver));
             }
 //            if(type_receiver == "ramp"){
@@ -199,10 +199,6 @@ Factory load_factory_structure(std::istream& is){
     return factory;
 }
 
-
-void ramp_fn(std::ostream& os){
-
-}
 
 void save_factory_structure(Factory& factory, std::ostream& os){
     os << "; == LOADING RAMPS ==" << std::endl;
