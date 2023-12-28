@@ -111,6 +111,8 @@ public:
 
     ElementID get_id() const override {return id_;}
 
+    std::optional<Package>& get_processing_buffer(void) {return buffer_;}
+
     IPackageStockpile::const_iterator cbegin() const override {return q_->cbegin();}
 
     IPackageStockpile::const_iterator cend() const override {return q_->cend();}
