@@ -30,6 +30,7 @@ set(SOURCES_FILES_TESTS
         test/test_Factory.cpp
         test/test_Factory_io.cpp
         test/test_reports.cpp
+        test/test_simulate.cpp
         )
 
 #add_executable(netsim_main ${SOURCE_FILES} main.cpp)
