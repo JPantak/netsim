@@ -101,7 +101,7 @@ void generate_simulation_turn_report(const Factory& factory, std::ostream& os,Ti
     for(auto worker : Workers){
         os << "WORKER #" << worker->get_id() << std::endl;
         if(worker->get_processing_buffer().has_value()){
-            os << "  PBuffer: #" << worker->get_processing_buffer()->get_id() << " (pt = " << worker->get_processing_duration() << ")" << std::endl;
+            os << "  PBuffer: #" << worker->get_processing_buffer()->get_id() << " (pt = " << worker->get_package_processing_start_time() << ")" << std::endl;
         }
         else{
             os << "  PBuffer: (empty)" << std::endl;
@@ -121,7 +121,13 @@ void generate_simulation_turn_report(const Factory& factory, std::ostream& os,Ti
                 os << std::endl;
             }
         }
-        os << "  SBuffer: (empty)\n" << std::endl;
+        //os << "  SBuffer: (empty)\n" << std::endl;
+        if (worker->get_sending_buffer().has_value()) {
+            os << "  SBuffer: #" << worker->get_sending_buffer()->get_id() << "\n" << std::endl;
+        } else {
+            os << "  SBuffer: (empty)\n" << std::endl;
+        }
+
         
     }
     

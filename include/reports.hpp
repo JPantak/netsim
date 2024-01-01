@@ -10,4 +10,7 @@
 void generate_structure_report(const Factory& factory, std::ostream& os);
 void generate_simulation_turn_report(const Factory& factory, std::ostream& os,Time t);
 
+class SpecyficTurnsReportNotifier{};
+class IntervalReportNotifier{};
+
 #endif //IMPLEMENTATION_NETSIM_REPORTS_HPP
