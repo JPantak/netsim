@@ -171,3 +171,17 @@ void generate_simulation_turn_report(const Factory& factory, std::ostream& os,Ti
     os << std::endl;
    
 }
+
+bool SpecyficTurnsReportNotifier::should_generate_report(Time t) const{
+    if (turns_.count(t)){
+        return true;
+    }
+    return false;
+}
+
+bool IntervalReportNotifier::should_generate_report(Time t) const{
+    if (to_ < t){
+        return true;
+    }
+    return false;
+}
