@@ -97,7 +97,7 @@ void generate_simulation_turn_report(const Factory& factory, std::ostream& os,Ti
             iter++;
         }
     }
-    std::sort(Workers.begin(),Workers.end(),[](Worker* a, Worker* b){return a->get_id() > b->get_id();});
+    std::sort(Workers.begin(),Workers.end(),[](Worker* a, Worker* b){return a->get_id() < b->get_id();});
     for(auto worker : Workers){
         os << "WORKER #" << worker->get_id() << std::endl;
         if(worker->get_processing_buffer().has_value()){
@@ -149,7 +149,7 @@ void generate_simulation_turn_report(const Factory& factory, std::ostream& os,Ti
             iter++;
         }
     }
-    std::sort(Storehouses.begin(),Storehouses.end(),[](Storehouse* a, Storehouse* b){return a->get_id() > b->get_id();});
+    std::sort(Storehouses.begin(),Storehouses.end(),[](Storehouse* a, Storehouse* b){return a->get_id() < b->get_id();});
     for(auto storehouse : Storehouses){
         os << "STOREHOUSE #" << storehouse->get_id() << std::endl;
         os << "  Stock: ";
