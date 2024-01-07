@@ -45,17 +45,12 @@ void generate_structure_report(const Factory& factory, std::ostream& os){
             os << "  Queue type: LIFO" << std::endl;
         }
         
-        os << "  Receivers:" << std::endl;
-        std::vector<ElementID> worker_ids;
+        os << "  Receivers:" << std::endl;        std::vector<ElementID> worker_ids;
         auto iter = (*worker).receiver_preferences_.get_preferences().begin();
         while(std::find_if(iter,(*worker).receiver_preferences_.get_preferences().end(),[](std::pair<IPackageReceiver*, double> i){return i.first->get_receiver_type() == ReceiverType::Worker;}) != (*worker).receiver_preferences_.get_preferences().end()){
             iter = std::find_if(iter,(*worker).receiver_preferences_.get_preferences().end(),[](std::pair<IPackageReceiver*, double> i){return i.first->get_receiver_type() == ReceiverType::Worker;});
             worker_ids.push_back(iter->first->get_id());
             iter++;
-        }
-        std::sort(worker_ids.begin(),worker_ids.end());
-        for(auto elem: worker_ids){
-            os << "    worker #" << elem << std::endl;
         }
          std::vector<ElementID> storehouse_ids;
         iter = (*worker).receiver_preferences_.get_preferences().begin();
@@ -67,6 +62,10 @@ void generate_structure_report(const Factory& factory, std::ostream& os){
         std::sort(storehouse_ids.begin(), storehouse_ids.end());
         for(auto elem : storehouse_ids){
             os << "    storehouse #" << elem << std::endl;
+        }
+        std::sort(worker_ids.begin(),worker_ids.end());
+        for(auto elem: worker_ids){
+            os << "    worker #" << elem << std::endl;
         }
         os << std::endl;
     }
