@@ -35,7 +35,12 @@ void generate_structure_report(const Factory& factory, std::ostream& os){
         os << std::endl;
     }
     os << "\n== WORKERS ==\n" << std::endl;
+    std::vector<NodeCollection<Worker>::const_iterator> worker_ptr_col;
     for (NodeCollection<Worker>::const_iterator worker = factory.worker_cbegin(); worker != factory.worker_cend(); worker++) {
+        worker_ptr_col.push_back(worker);
+    }
+    std::sort(worker_ptr_col.begin(),worker_ptr_col.end(),[](NodeCollection<Worker>::const_iterator a, NodeCollection<Worker>::const_iterator b){return a->get_id() < b->get_id();});
+    for(auto worker: worker_ptr_col){
         os << "WORKER #" << (*worker).get_id() << std::endl;
         os << "  Processing time: " << (*worker).get_processing_duration() << std::endl;
         if(worker->get_queue()->get_queue_type() == PackageQueueType::FIFO){
@@ -52,7 +57,7 @@ void generate_structure_report(const Factory& factory, std::ostream& os){
             worker_ids.push_back(iter->first->get_id());
             iter++;
         }
-         std::vector<ElementID> storehouse_ids;
+        std::vector<ElementID> storehouse_ids;
         iter = (*worker).receiver_preferences_.get_preferences().begin();
         while(std::find_if(iter,(*worker).receiver_preferences_.get_preferences().end(),[](std::pair<IPackageReceiver*, double> i){return i.first->get_receiver_type() == ReceiverType::Storehouse;}) != (*worker).receiver_preferences_.get_preferences().end()){
             iter = std::find_if(iter,(*worker).receiver_preferences_.get_preferences().end(),[](std::pair<IPackageReceiver*, double> i){return i.first->get_receiver_type() == ReceiverType::Storehouse;});
@@ -70,9 +75,14 @@ void generate_structure_report(const Factory& factory, std::ostream& os){
         os << std::endl;
     }
     os << "\n== STOREHOUSES ==\n" << std::endl;
-    
+    std::vector<ElementID> storehouses_ids;
     for(NodeCollection<Storehouse>::const_iterator storehouse = factory.storehouse_cbegin(); storehouse != factory.storehouse_cend(); storehouse++){
-        os << "STOREHOUSE #" << storehouse->get_id() << std::endl << std::endl;
+        storehouses_ids.push_back(storehouse->get_id());
+        // os << "STOREHOUSE #" << storehouse->get_id() << std::endl << std::endl;
+    }
+    std::sort(storehouses_ids.begin(),storehouses_ids.end());
+    for(auto elem: storehouses_ids){
+        os << "STOREHOUSE #" << elem << std::endl << std::endl;
     }
 }
 
@@ -152,16 +162,21 @@ void generate_simulation_turn_report(const Factory& factory, std::ostream& os,Ti
     for(auto storehouse : Storehouses){
         os << "STOREHOUSE #" << storehouse->get_id() << std::endl;
         os << "  Stock: ";
+        std::vector<ElementID> storehouse_ids2;
         if (storehouse->begin() == storehouse->end()){
             os << "(empty)" << std::endl;
         }
         else{
             for(auto it = storehouse->begin(); it != storehouse->end(); it++){
-                if(it == storehouse->begin()){
-                    os << "#" << it->get_id();
+                storehouse_ids2.push_back(it->get_id());
+            }
+            std::sort(storehouse_ids2.begin(),storehouse_ids2.end());
+            for(auto it = storehouse_ids2.begin(); it != storehouse_ids2.end();it++){
+                if(it == storehouse_ids2.begin()){
+                    os << "#" << *it;
                 }
                 else{
-                    os << ", #" << it->get_id();
+                    os << ", #" << *it;
                 }
                 os << std::endl;
             }
